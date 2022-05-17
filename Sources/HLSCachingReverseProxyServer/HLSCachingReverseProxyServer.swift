@@ -1,5 +1,6 @@
 import GCDWebServer
 import PINCache
+import CryptoKit
 
 open class HLSCachingReverseProxyServer {
   static let originURLKey = "__hls_origin_url"
@@ -189,6 +190,8 @@ open class HLSCachingReverseProxyServer {
   }
 
   private func cacheKey(for resourceURL: URL) -> String {
-    return resourceURL.absoluteString.data(using: .utf8)!.base64EncodedString()
+    let digest = Insecure.MD5.hash(data: resourceURL.absoluteString.data(using: .utf8)!)
+    let joined = digest.map{ String(format: "%02hhx", $0) }.joined()
+    return joined
   }
 }
