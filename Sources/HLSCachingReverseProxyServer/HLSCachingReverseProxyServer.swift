@@ -186,7 +186,7 @@ open class HLSCachingReverseProxyServer {
 
   private func saveCacheData(_ data: Data, for resourceURL: URL) {
     let key = self.cacheKey(for: resourceURL)
-    self.cache.setObject(data, forKey: key)
+    self.cache.setObject(data, forKey: key, withCost: data.count)
   }
 
   private func cacheKey(for resourceURL: URL) -> String {
